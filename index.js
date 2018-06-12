@@ -21,7 +21,7 @@ function createTwitterThreadMessages(originalMessage, navMessage = '👇') {
 		}
 
 		// formTweetChunks should always be passed a 278 lengthed raw array
-		// so that this only fires at the end of the last tweet chunk;
+		// so that this only fires at the end of the last tweet chunk ;
 
 		if (message.length < TEXT_TWEET_LENGTH) {
 			tweetsArray.push(trimStart(message));
@@ -64,3 +64,4 @@ function createTwitterThreadMessages(originalMessage, navMessage = '👇') {
 }
 
 module.exports = createTwitterThreadMessages;
+exports.TWEET_LENGTH = TWEET_LENGTH;

@@ -1,10 +1,12 @@
 # create-twitter-thread
 
-Put in a long string (a long tweet with > 280 characters) and it will break it down for you in multiple chunks (each individual tweet < 280 characters) array, so you can do anything with it for example [create a twitter thread in one go using twitter API](https://github.com/sindresorhus/refined-twitter/issues/120)
+Put in a long string (a long tweet with > 280 characters) and it will break it down for you in multiple chunks (each individual tweet < 280 characters) array, so you can do anything with it, primarily create a twitter thread in one go using twitter API ([like twitter's native tweet thread functionality](https://github.com/sindresorhus/refined-twitter/issues/120))
+
+---
 
 ## API
 
-### createTwitterThreadMessages(messageString, navMessage[optional][default: "👇"])
+### const tweetsArray = createTwitterThreadMessages(messageString, navMessage[optional][default: "👇"])
 
 #### message
 
@@ -14,19 +16,22 @@ String that needs to be broken down into <280 length messages and assimilated in
 
 #### navMessage
 
-Type: `string`
+Type: `string`, default: '👇'
 
-An optional navigation string (message) that you might need at the end of tweets (to show that there are more tweets in the tweet thread)
+#### tweetsArray
+
+Type: `array of strings`
+
+An optional navigation string (message) that you might need at the end of tweets (to show that there are more tweets in the tweet thread).
 
 ---
 
 ## USAGE
 
 ```javascript
-// NODEJS
 const createTwitterThreadMessages = require('create-twitter-thread');
 
-const string = `I'm partial to air conditioning.
+const longTwitterRant = `I'm partial to air conditioning.
 God created pudding, and then he rested. I'm going to tell you something that I've never told anyone before. I have a dark side, too. Pretend. You pretend the feelings are there, for the world, for the people around you. Who knows? Maybe one day they will be.
 
 I have a dark side, too. You look…perfect. God created pudding, and then he rested. Tell him time is of the essence. You all right, Dexter?
@@ -65,7 +70,7 @@ I'm generally confused most of the time. He taught me a code. To survive. I love
 
 I will not kill my sister. I will not kill my sister. I will not kill my sister. I have a dark side, too. Hello, Dexter Morgan. I'm doing mental jumping jacks. He taught me a code. To survive.`;
 
-const result = createTwitterThreadMessages(message, '🔽');
+const tweetChunks = createTwitterThreadMessages(message, '🔽');
 /*
   result = [
   "I'm partial to air conditioning.\nGod created pudding, and then he rested. I'm going to tell you something that I've never told anyone before. I have a dark side, too. Pretend. You pretend the feelings are there, for the world, for the people around you. Who knows? Maybe one day 🔽",
