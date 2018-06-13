@@ -1,39 +1,36 @@
 {
-	"name": "@arihantverma/create-twitter-thread",
-	"version": "0.1.0",
-	"description": "Put in a long string (a long tweet with > 280 characters) and it will break it down for you in mulitple chunks (each individual tweet < 280 characters) array, so you can do anything with it for example create a twitter thread in one go",
-	"main": "index.js",
-	"unpkg": "index.js",
-	"scripts": {
-		"test": "ava"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/gdad-s-river/create-twitter-thread.git"
-	},
-	"keywords": [
-		"twitter",
-		"tweet",
-		"tweet-thread"
-	],
-	"author": {
-		"name": "Arihant Verma",
-		"email": "gdadsriver@gmail.com",
-		"url": "https://gdad-s-river.github.io"
-	},
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/gdad-s-river/create-twitter-thread/issues"
-	},
-	"homepage": "https://github.com/gdad-s-river/create-twitter-thread#readme",
-	"engines": {
-		"node": ">=6"
-	},
-	"dependencies": {
-		"grapheme-splitter": "^1.0.2",
-		"lodash.trimstart": "^4.5.1"
-	},
-	"devDependencies": {
-		"ava": "1.0.0-beta.5.1"
-	}
+  "name": "@arihantverma/create-twitter-thread",
+  "version": "1.0.0",
+  "description":
+    "Put in a long string (a long tweet with > 280 characters) and it will break it down for you in mulitple chunks (each individual tweet < 280 characters) array, so you can do anything with it for example create a twitter thread in one go",
+  "main": "index.js",
+  "unpkg": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gdad-s-river/create-twitter-thread.git"
+  },
+  "keywords": ["twitter", "tweet", "tweet-thread"],
+  "author": {
+    "name": "Arihant Verma",
+    "email": "gdadsriver@gmail.com",
+    "url": "https://gdad-s-river.github.io"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gdad-s-river/create-twitter-thread/issues"
+  },
+  "homepage": "https://github.com/gdad-s-river/create-twitter-thread#readme",
+  "engines": {
+    "node": ">=6"
+  },
+  "dependencies": {
+    "grapheme-splitter": "^1.0.2",
+    "lodash.trimstart": "^4.5.1"
+  },
+  "devDependencies": {
+    "ava": "1.0.0-beta.5.1"
+  }
 }
