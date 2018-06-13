@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gdad-s-river/create-twitter-thread.svg?branch=master)](https://travis-ci.org/gdad-s-river/create-twitter-thread)
+
 # create-twitter-thread
 
 Put in a long string (a long tweet with > 280 characters) and it will break it down for you in multiple chunks (each individual tweet < 280 characters) array, so you can do anything with it, primarily create a twitter thread in one go using twitter API ([like twitter's native tweet thread functionality](https://github.com/sindresorhus/refined-twitter/issues/120))
