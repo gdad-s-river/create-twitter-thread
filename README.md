@@ -45,7 +45,7 @@ God created pudding, and then he rested. I'm going to tell you something that I'
 I have a dark side, too. You look…perfect. God created pudding, and then he rested. Tell him time is of the essence. You all right, Dexter?
 
 He taught me a code. To survive.
-I am not a killer. Like a sloth. I can do that. I like seafood. Only you could make those words cute.
+I am not a killer. Like a sloth. I can do that. I like seafood. Only you could make those words cute. 
 
 This man is a knight in shining armor.
 Watching ice melt. This is fun.
