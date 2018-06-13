@@ -2,6 +2,14 @@
 
 Put in a long string (a long tweet with > 280 characters) and it will break it down for you in multiple chunks (each individual tweet < 280 characters) array, so you can do anything with it, primarily create a twitter thread in one go using twitter API ([like twitter's native tweet thread functionality](https://github.com/sindresorhus/refined-twitter/issues/120))
 
+## Install
+
+`npm install --save create-twitter-thread` (not published yet)
+
+## Test
+
+`npm test`
+
 ---
 
 ## API
@@ -16,13 +24,13 @@ String that needs to be broken down into <280 length messages and assimilated in
 
 #### navMessage
 
+An optional navigation string (message) that you might need at the end of tweets (to show that there are more tweets in the tweet thread).
+
 Type: `string`, default: '👇'
 
 #### tweetsArray
 
 Type: `array of strings`
-
-An optional navigation string (message) that you might need at the end of tweets (to show that there are more tweets in the tweet thread).
 
 ---
 
@@ -73,9 +81,9 @@ I will not kill my sister. I will not kill my sister. I will not kill my sister.
 const tweetChunks = createTwitterThreadMessages(message, '🔽');
 /*
   result = [
-  "I'm partial to air conditioning.\nGod created pudding, and then he rested. I'm going to tell you something that I've never told anyone before. I have a dark side, too. Pretend. You pretend the feelings are there, for the world, for the people around you. Who knows? Maybe one day 🔽",
-  "they will be.\n\nI have a dark side, too. You look…perfect. God created pudding, and then he rested. Tell him time is of the essence. You all right, Dexter?\n\nHe taught me a code. To survive.\nI am not a killer. Like a sloth. I can do that. I like seafood. Only you could make those 🔽",
-  "words cute.\n\nThis man is a knight in shining armor.\nWatching ice melt. This is fun.\nI've lived in darkness a long time. Over the years my eyes adjusted until the dark became my world and I could see.\nYou look…perfect.\nWatching ice melt. This is fun. Finding a needle in a 🔽",
+  "I'm partial to air conditioning.\nGod created pudding, and then he rested. I'm going to tell you something that I've never told anyone before. I have a dark side, too. Pretend. You pretend the feelings are there, for the world, for the people around you. Who knows? Maybe one 🔽",
+  "day 👇they will be.\n\nI have a dark side, too. You look…perfect. God created pudding, and then he rested. Tell him time is of the essence. You all right, Dexter?\n\nHe taught me a code. To survive.\nI am not a killer. Like a sloth. I can do that. I like seafood. Only you could make 🔽",
+  "those words cute.\n\nThis man is a knight in shining armor.\nWatching ice melt. This is fun.\nI've lived in darkness a long time. Over the years my eyes adjusted until the dark became my world and I could see.\nYou look…perfect.\nWatching ice melt. This is fun. Finding a needle in a 🔽",
   "haystack isn't hard when every straw is computerized. Somehow, I doubt that. You have a good heart, Dexter. I'm generally confused most of the time.\n\nWatching ice melt. This is fun.\nI have a dark side, too.\nHe taught me a code. To survive.\nPretend. You pretend the feelings are 🔽",
   "there, for the world, for the people around you. Who knows? Maybe one day they will be. He taught me a code. To survive. I'm not the monster he wants me to be. So I'm neither man nor beast. I'm something new entirely. With my own set of rules. I'm Dexter. Boo.\n\nI've lived in 🔽",
   "darkness a long time. Over the years my eyes adjusted until the dark became my world and I could see. Cops, another community I'm not part of. I'm Dexter, and I'm not sure what I am. Cops, another community I'm not part of.\n\nTonight's the night. And it's going to happen again 🔽",
