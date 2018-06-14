@@ -1,6 +1,6 @@
 {
   "name": "create-twitter-thread",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description":
     "Put in a long string (a long tweet with > 280 characters) and it will break it down for you in mulitple chunks (each individual tweet < 280 characters) array, so you can do anything with it for example create a twitter thread in one go",
   "main": "index.js",
