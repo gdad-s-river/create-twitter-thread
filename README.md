@@ -80,9 +80,9 @@ I'm generally confused most of the time. He taught me a code. To survive. I love
 
 I will not kill my sister. I will not kill my sister. I will not kill my sister. I have a dark side, too. Hello, Dexter Morgan. I'm doing mental jumping jacks. He taught me a code. To survive.`;
 
-const tweetChunks = createTwitterThreadMessages(message, '🔽');
+const tweetChunks = createTwitterThreadMessages(longTwitterRant, '🔽');
 /*
-  result = [
+  tweetChunks = [
   "I'm partial to air conditioning.\nGod created pudding, and then he rested. I'm going to tell you something that I've never told anyone before. I have a dark side, too. Pretend. You pretend the feelings are there, for the world, for the people around you. Who knows? Maybe one 🔽",
   "day 👇they will be.\n\nI have a dark side, too. You look…perfect. God created pudding, and then he rested. Tell him time is of the essence. You all right, Dexter?\n\nHe taught me a code. To survive.\nI am not a killer. Like a sloth. I can do that. I like seafood. Only you could make 🔽",
   "those words cute.\n\nThis man is a knight in shining armor.\nWatching ice melt. This is fun.\nI've lived in darkness a long time. Over the years my eyes adjusted until the dark became my world and I could see.\nYou look…perfect.\nWatching ice melt. This is fun. Finding a needle in a 🔽",

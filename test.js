@@ -19,8 +19,6 @@ function isArrayOfStrings(x) {
   return x.every(i => typeof i === 'string');
 }
 
-let resultTweetsArray;
-
 test.before(t => {
   t.context.tweetsArray = createTwitterThreadMessages(testString);
 });

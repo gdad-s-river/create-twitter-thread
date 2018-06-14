@@ -19,7 +19,6 @@ function createTwitterThreadMessages(originalMessageString, navMessage = '👇')
   }
 
   function formTweetChunks(saneMessageArray, navMessage) {
-    const SINGLE_SPACE = ' ';
     const TEXT_TWEET_LENGTH = TWEET_LENGTH - navMessage.length;
 
     if (!saneMessageArray.length) {
