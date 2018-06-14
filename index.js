@@ -57,10 +57,7 @@ function createTwitterThreadMessages(originalMessageString, navMessage = '👇')
     }
 
     const newMessageStartingIndex = tweetLengthArray.length + 1;
-    // the second argument will always be greater than
-    // the length of the nextMessage. To be exact
-    // it should be something like message.length - tweetLengthRawString.length
-    // but I think we wouldn't need to be exact
+
     const nextMessage = saneMessageArray.slice(
       newMessageStartingIndex,
       saneMessageArray.length,
