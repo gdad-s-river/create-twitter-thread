@@ -29,7 +29,7 @@ function createTwitterThreadMessages(originalMessageString, navMessage = '👇')
     // so that this only fires at the end of the last tweet chunk ;
 
     if (saneMessageArray.length < TEXT_TWEET_LENGTH) {
-      tweetsArray.push(trimStart(saneMessageArray.join('')));
+      tweetsArray.push(saneMessageArray.join('').trim());
       return tweetsArray;
     }
 
