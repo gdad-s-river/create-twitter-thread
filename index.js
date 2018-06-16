@@ -1,5 +1,13 @@
 const trimStart = require('lodash.trimstart');
 const GraphemeSplitter = require('grapheme-splitter');
+const is = require('@sindresorhus/is');
+
+const {
+  isArrayOfStrings,
+  generateUniqueRandomEmoji,
+  throwTypeError,
+  throwError,
+} = require('./utils');
 
 const splitter = new GraphemeSplitter();
 
@@ -8,59 +16,65 @@ const SINGLE_SPACE = ' ';
 
 const tweetsArray = [];
 
-function createTwitterThreadMessages(originalMessageString, navMessage = '👇') {
+function createTwitterThreadMessages(
+  originalMessageString,
+  navMessage = '👇',
+  unique = false,
+) {
   if (
     typeof originalMessageString !== 'string' &&
     typeof navMessage !== 'string'
   ) {
-    throw new TypeError(
+    throwTypeError(
       'both the main message and navigation message should be strings',
     );
   }
 
   function formTweetChunks(saneMessageArray, navMessage) {
-    const TEXT_TWEET_LENGTH = TWEET_LENGTH - navMessage.length;
+    // copy in a new variable, so as to mutate parameter
+    let messageArray = saneMessageArray;
+    let navDown = unique
+      ? `${generateUniqueRandomEmoji()} ${navMessage}`
+      : navMessage;
 
-    if (!saneMessageArray.length) {
+    const TEXT_TWEET_LENGTH = TWEET_LENGTH - navDown.length;
+
+    if (!messageArray.length) {
       return tweetsArray;
     }
 
     // formTweetChunks should always be passed a 278 lengthed raw array
     // so that this only fires at the end of the last tweet chunk ;
 
-    if (saneMessageArray.length < TEXT_TWEET_LENGTH) {
-      tweetsArray.push(saneMessageArray.join('').trim());
+    if (messageArray.length < TEXT_TWEET_LENGTH) {
+      tweetsArray.push(messageArray.join('').trim());
       return tweetsArray;
     }
 
-    let tweetLengthArray = saneMessageArray.slice(0, TEXT_TWEET_LENGTH);
+    let tweetArray = messageArray.slice(0, TEXT_TWEET_LENGTH);
 
-    const charAtNextStartPoint = saneMessageArray[saneMessageArray.length];
+    const charAtNextStartPoint = messageArray[tweetArray.length];
 
     {
       if (charAtNextStartPoint === SINGLE_SPACE) {
         // it's not a split word = ✅; push it
-        tweetsArray.push(
-          trimStart(`${tweetLengthArray.join('')} ${navMessage}`),
-        );
+        tweetsArray.push(trimStart(`${tweetArray.join('')} ${navDown}`));
       } else {
         // word got cut out, remove that whole word from this time's push
 
-        const lastIndexOfWhiteSpace = tweetLengthArray.lastIndexOf(
-          SINGLE_SPACE,
-        );
+        const lastIndexOfWhiteSpace = tweetArray.lastIndexOf(SINGLE_SPACE);
 
-        tweetLengthArray = saneMessageArray.slice(0, lastIndexOfWhiteSpace);
+        tweetArray = messageArray.slice(0, lastIndexOfWhiteSpace);
 
-        tweetsArray.push(`${tweetLengthArray.join('')} ${navMessage}`);
+        tweetsArray.push(`${tweetArray.join('')} ${navDown}`);
       }
     }
 
-    const newMessageStartingIndex = tweetLengthArray.length + 1;
+    const newMessageStartingIndex = tweetArray.length + 1;
 
-    const nextMessage = saneMessageArray.slice(
+    const nextMessage = messageArray.slice(
       newMessageStartingIndex,
-      saneMessageArray.length,
+      messageArray.length,
     );
 
     return formTweetChunks(nextMessage, navMessage);

@@ -1,23 +1,9 @@
 const test = require('ava');
+const { isArrayOfStrings, throwError, throwTypeError } = require('./utils');
 
 const testString = require('./testString');
 const createTwitterThreadMessages = require('./index.js');
 const TWEET_LENGTH = require('./index.js').TWEET_LENGTH;
-
-const throwTypeError = message => {
-  throw new TypeError(message);
-};
-
-const throwError = message => {
-  throw new Error(message);
-};
-
-function isArrayOfStrings(x) {
-  if (!Array.isArray(x))
-    throw new TypeError(`Given input ${x} is not an array`);
-
-  return x.every(i => typeof i === 'string');
-}
 
 test.before(t => {
   t.context.tweetsArray = createTwitterThreadMessages(testString);

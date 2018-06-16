@@ -1,8 +1,7 @@
 {
   "name": "create-twitter-thread",
-  "version": "1.0.4",
-  "description":
-    "Put in a long string (a long tweet with > 280 characters) and it will break it down for you in mulitple chunks (each individual tweet < 280 characters) array, so you can do anything with it for example create a twitter thread in one go",
+  "version": "1.1.0",
+  "description": "Put in a long string (a long tweet with > 280 characters) and it will break it down for you in mulitple chunks (each individual tweet < 280 characters) array, so you can do anything with it for example create a twitter thread in one go",
   "main": "index.js",
   "unpkg": "index.js",
   "scripts": {
@@ -12,7 +11,11 @@
     "type": "git",
     "url": "git+https://github.com/gdad-s-river/create-twitter-thread.git"
   },
-  "keywords": ["twitter", "tweet", "tweet-thread"],
+  "keywords": [
+    "twitter",
+    "tweet",
+    "tweet-thread"
+  ],
   "author": {
     "name": "Arihant Verma",
     "email": "gdadsriver@gmail.com",
@@ -27,10 +30,12 @@
     "node": ">=6"
   },
   "dependencies": {
+    "@sindresorhus/is": "^0.9.0",
     "grapheme-splitter": "^1.0.2",
-    "lodash.trimstart": "^4.5.1"
+    "lodash.trimstart": "^4.5.1",
+    "node-emoji": "^1.8.1"
   },
   "devDependencies": {
-    "ava": "1.0.0-beta.5.1"
+    "ava": "1.0.0-beta.6.0"
   }
 }

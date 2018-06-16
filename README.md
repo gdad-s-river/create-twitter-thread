@@ -16,7 +16,7 @@ Put in a long string (a long tweet with > 280 characters) and it will break it d
 
 ## API
 
-### const tweetsArray = createTwitterThreadMessages(messageString, navMessage[optional][default: "👇"])
+### const tweetsArray = createTwitterThreadMessages(messageString, navMessage[optional], unique[optional])
 
 #### message
 
@@ -29,6 +29,12 @@ String that needs to be broken down into <280 length messages and assimilated in
 An optional navigation string (message) that you might need at the end of tweets (to show that there are more tweets in the tweet thread).
 
 Type: `string`, default: '👇'
+
+#### unique
+
+Type: `Boolean`, default: false
+
+If you want to ensure that each tweet is unique (not same as last one), this option adds a random emoji before navMessage for each tweet chunk
 
 #### tweetsArray
 
