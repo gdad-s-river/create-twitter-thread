@@ -1,5 +1,13 @@
 [![Build Status](https://travis-ci.org/gdad-s-river/create-twitter-thread.svg?branch=master)](https://travis-ci.org/gdad-s-river/create-twitter-thread)
 
+<!-- ![](logo.gif) -->
+
+<p align="center">
+  <img src="logo.gif">
+</p>
+
+Logo Made With [Animated Pixel Gradients](https://animated-pixel-gradients.glitch.me/)
+
 # create-twitter-thread
 
 Put in a long string (a long tweet with > 280 (or less than or equal to) characters) and it will break it down for you in multiple chunks (each individual tweet <= 280 characters) array, so you can do anything with it, primarily like create a twitter thread in one go using twitter API for twitter bots. You can also create a twitter thread in response to somebody else's tweet (which might come from example listening to twitter's stream API for a particular keyword (hashtag, twitter tags, etc))
