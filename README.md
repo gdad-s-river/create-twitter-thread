@@ -25,7 +25,7 @@ or
 ```javascript
 const thread = createTwitterThreadMessages(
   messageString,
-  twitterHandle[optional],
+  twitterHandleObject[optional],
 );
 ```
 
