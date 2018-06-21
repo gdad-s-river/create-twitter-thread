@@ -1,6 +1,4 @@
 import is from '@sindresorhus/is';
-import testStrings from './testStrings';
-
 import {
   extractSane280,
   injectString,
