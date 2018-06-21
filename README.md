@@ -35,7 +35,7 @@ Type: `string`
 
 String that needs to be broken down into <= 280 length tweets and assimilated in an array.
 
-## twitterHandleObject[optional]
+#### twitterHandleObject[optional]
 
 Type: `object`
 
