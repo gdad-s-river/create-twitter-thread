@@ -3,7 +3,7 @@ node_js:
   - '10'
   - '8'
 install:
-  - npm install
+  - yarn
 
 script:
-  - npm test
+  - yarn test

@@ -1,5 +1,6 @@
 import is from '@sindresorhus/is';
 import testStrings from './testStrings';
+
 import {
   extractSane280,
   injectString,
@@ -8,7 +9,6 @@ import {
   wordIt,
   TWEET_LENGTH,
 } from './utils/';
-// import clipboard from 'copy-paste';
 
 export default function createTwitterThreadMessages(message, threadObject) {
   let threadTo =
@@ -71,8 +71,6 @@ function getSaneTweetsWithHandles(
         newSubStr: `${handleValue}${newCarryOver}`,
       });
 
-      // console.log(carryAddedTweet);
-
       // do the sanity
       const sane280Untested = extractSane280(carryAddedTweet, TWEET_LENGTH);
 
@@ -126,13 +124,3 @@ function formTweetsArray(message) {
 
   return recursiveFunctionFormingThread(message);
 }
-
-// const obj = {
-//   threadTo: { other: '@bewarehdfcergo' },
-// };
-
-// const result = createTwitterThreadMessages(testStrings.longString);
-// console.log(result);
-// console.log(result.join(''));
-
-// result.forEach(t => console.log(t, '\n--------------------------'));

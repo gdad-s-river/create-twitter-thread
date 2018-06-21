@@ -1,15 +1,7 @@
-// const generateUniqueRandomEmoji = require('./generateUniqueRandomEmoji');
 import is from '@sindresorhus/is';
 
 const SINGLE_SPACE = ' ';
 const TWEET_LENGTH = 280;
-
-function isArrayOfStrings(x) {
-  if (!Array.isArray(x))
-    throw new TypeError(`Given input ${x} is not an array`);
-
-  return x.every(i => typeof i === 'string');
-}
 
 const throwTypeError = message => {
   throw new TypeError(message);
@@ -136,7 +128,6 @@ function extractSane280(message, limit) {
 }
 
 export {
-  isArrayOfStrings,
   throwError,
   throwTypeError,
   injectString,

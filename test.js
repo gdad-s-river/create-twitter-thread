@@ -1,9 +1,9 @@
 import test from 'ava';
 import is from '@sindresorhus/is';
 import createTwitterThreadMessages from './main';
+// TODO: test on many randomized strings instead of just two (open issue for it)
 import testStrings from './testStrings';
-import { isArrayOfStrings, throwTypeError, TWEET_LENGTH } from './utils';
-// import clipboard from 'copy-paste';
+import { throwTypeError, TWEET_LENGTH } from './utils';
 
 const testStringsObject = testStrings;
 
@@ -42,7 +42,11 @@ test.before(t => {
   t.context.threads = threads;
 
   t.context.runTestsOnFixtures = (
-    typeOfThreads = ['withHandles', 'withoutHandles'], // array
+    typeOfThreads = [
+      'withHandles',
+      'withoutHandles',
+      ...Object.keys(threads.withHandles),
+    ],
     runAssertionsOnThread = noop,
     runAssertionsOnTweet = noop,
   ) => {
@@ -58,13 +62,15 @@ test.before(t => {
     if (typeOfThreads.includes('withHandles')) {
       const withHandlesObject = threads.withHandles;
       for (let key in withHandlesObject) {
-        if (withHandlesObject.hasOwnProperty(key)) {
-          withHandlesObject[key].forEach(threadWithHandle => {
-            runAssertionsOnThread(threadWithHandle);
-            threadWithHandle.forEach(tweet => {
-              runAssertionsOnTweet(tweet);
+        if (typeOfThreads.includes(key)) {
+          if (withHandlesObject.hasOwnProperty(key)) {
+            withHandlesObject[key].forEach(threadWithHandle => {
+              runAssertionsOnThread(threadWithHandle);
+              threadWithHandle.forEach(tweet => {
+                runAssertionsOnTweet(tweet);
+              });
             });
-          });
+          }
         }
       }
     }
@@ -91,19 +97,29 @@ test('All tweets should be of proper length (<= 280)', t => {
 
 test('Tweets should have necessary handles if they are created with threadTo option', t => {
   t.context.runTestsOnFixtures(
-    ['withHandles'],
+    ['withHandles', 'ownThreads'],
     thread => {
       for (const entry of thread.entries()) {
         const index = entry[0];
-        const value = entry[1];
+        const tweetValue = entry[1];
 
-        // first tweet
         if (index === 0) {
-          t.test(value.indexOf());
+          // first tweet
+          t.true(tweetValue.indexOf(ownHandle) < 0);
+        } else {
+          t.true(tweetValue.indexOf(ownHandle) === 0);
         }
       }
     },
     noop,
   );
-  // t.pass();
+
+  t.context.runTestsOnFixtures(['withHandles', 'otherThreads'], thread => {
+    for (const entry of thread.entries()) {
+      const index = entry[0];
+      const tweetValue = entry[1];
+
+      t.true(tweetValue.indexOf(otherHandle) === 0);
+    }
+  });
 });

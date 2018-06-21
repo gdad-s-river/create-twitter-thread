@@ -1,9 +1,8 @@
 {
   "name": "create-twitter-thread",
-  "version": "1.1.0",
-  "description": "Put in a long string (a long tweet with > 280 characters) and it will break it down for you in mulitple chunks (each individual tweet < 280 characters) array, so you can do anything with it for example create a twitter thread in one go",
-  "main": "rewrite.js",
-  "unpkg": "index.js",
+  "version": "2.0.0",
+  "description": "Creates a twitter thread out of a long string and some options",
+  "main": "index.js",
   "scripts": {
     "test": "ava"
   },
@@ -14,7 +13,8 @@
   "keywords": [
     "twitter",
     "tweet",
-    "tweet-thread"
+    "tweet-thread",
+    "twitter-bot"
   ],
   "author": {
     "name": "Arihant Verma",
@@ -34,7 +34,6 @@
     "esm": "^3.0.51"
   },
   "devDependencies": {
-    "ava": "1.0.0-beta.6.0",
-    "copy-paste": "^1.3.0"
+    "ava": "1.0.0-beta.6.0"
   }
 }
