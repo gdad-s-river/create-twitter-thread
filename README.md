@@ -20,7 +20,7 @@ or
 
 ## API
 
-### createTwitterThreadMessages(messageString, twitterHandle[optional])
+### createTwitterThreadMessages(messageString, twitterHandleObject[optional])
 
 ```javascript
 const thread = createTwitterThreadMessages(
@@ -35,7 +35,7 @@ Type: `string`
 
 String that needs to be broken down into <= 280 length tweets and assimilated in an array.
 
-## object[optional]
+## twitterHandleObject[optional]
 
 Type: `object`
 
