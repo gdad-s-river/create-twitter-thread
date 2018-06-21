@@ -1,124 +1,109 @@
 import test from 'ava';
+import is from '@sindresorhus/is';
 import createTwitterThreadMessages from './main';
 import testStrings from './testStrings';
 import { isArrayOfStrings, throwTypeError, TWEET_LENGTH } from './utils';
+// import clipboard from 'copy-paste';
+
+const testStringsObject = testStrings;
+
+const noop = () => {};
+const _ = undefined;
+// fixture
+let threads = {
+  withoutHandles: [],
+  withHandles: {
+    ownThreads: [],
+    otherThreads: [],
+  },
+};
+
+const ownHandle = `@bewarehdfcergo`;
+const otherHandle = `@dynamichandle`;
+
+Object.keys(testStrings).forEach(testStringKey => {
+  const testString = testStrings[testStringKey];
+  threads.withoutHandles.push(createTwitterThreadMessages(testString));
+
+  threads.withHandles.ownThreads.push(
+    createTwitterThreadMessages(testString, {
+      threadTo: { own: ownHandle },
+    }),
+  );
+
+  threads.withHandles.otherThreads.push(
+    createTwitterThreadMessages(testString, {
+      threadTo: { other: otherHandle },
+    }),
+  );
+});
 
 test.before(t => {
-  /**
-   * tweetsArray -> forEach testString -> tweetArray without threadTo, and with both threadTo.own and threadTo.other
-   * that is — tweetsArray.length = 6
-   */
-  let threadsArray = [];
-  Object.keys(testStrings).forEach(testStringKey => {
-    const testString = testStrings[testStringKey];
-    threadsArray.push(createTwitterThreadMessages(testString));
-    threadsArray.push(
-      createTwitterThreadMessages(testString, {
-        threadTo: { own: '@bewarehdfcergo' },
-      }),
-    );
-    threadsArray.push(
-      createTwitterThreadMessages(testString, {
-        threadTo: { other: '@dynamicTwitterHandle' },
-      }),
-    );
-  });
+  t.context.threads = threads;
 
-  t.context.threadsArray = threadsArray;
-});
-
-test('tweetsArray should be an array of strings', t => {
-  t.context.threadsArray.forEach(thread => {
-    if (!isArrayOfStrings(thread)) {
-      // ensure that it throws a typeerror
-      t.throws(() => {
-        throwTypeError('Should be an array of strings');
-      }, TypeError);
-    } else {
-      t.pass();
-    }
-  });
-});
-
-test('each tweet should have length < 280', t => {
-  t.context.threadsArray.forEach(thread => {
-    thread.forEach(tweet => {
-      if (tweet.length > TWEET_LENGTH) {
-        t.throws(() => {
-          throwError(`Tweet's length should be less than 280`);
+  t.context.runTestsOnFixtures = (
+    typeOfThreads = ['withHandles', 'withoutHandles'], // array
+    runAssertionsOnThread = noop,
+    runAssertionsOnTweet = noop,
+  ) => {
+    if (typeOfThreads.includes('withoutHandles')) {
+      t.context.threads.withoutHandles.forEach(threadWithoutHandle => {
+        runAssertionsOnThread(threadWithoutHandle);
+        threadWithoutHandle.forEach(tweetWithoutHandles => {
+          runAssertionsOnTweet(tweetWithoutHandles);
         });
-      } else {
-        t.pass();
+      });
+    }
+
+    if (typeOfThreads.includes('withHandles')) {
+      const withHandlesObject = threads.withHandles;
+      for (let key in withHandlesObject) {
+        if (withHandlesObject.hasOwnProperty(key)) {
+          withHandlesObject[key].forEach(threadWithHandle => {
+            runAssertionsOnThread(threadWithHandle);
+            threadWithHandle.forEach(tweet => {
+              runAssertionsOnTweet(tweet);
+            });
+          });
+        }
       }
-    });
+    }
+  };
+});
+
+test('All threads should be array of strings', t => {
+  t.context.runTestsOnFixtures(
+    _,
+    thread => {
+      t.true(is.array(thread));
+    },
+    tweet => {
+      t.true(is.string(tweet));
+    },
+  );
+});
+
+test('All tweets should be of proper length (<= 280)', t => {
+  t.context.runTestsOnFixtures(_, noop, tweet => {
+    t.true(tweet.length <= TWEET_LENGTH);
   });
 });
 
-// TODO: DRY: make fixtures instead of repeatedly creating similar twitter threads
-// as in the .before hook above
-// test('if there is threadTo, tweets should have necessary twitter handles', t => {
-//   const ownHandle = '@bewarehdfcergo';
-//   const dynamicHandle = '@dynamicHandle';
+test('Tweets should have necessary handles if they are created with threadTo option', t => {
+  t.context.runTestsOnFixtures(
+    ['withHandles'],
+    thread => {
+      for (const entry of thread.entries()) {
+        const index = entry[0];
+        const value = entry[1];
 
-//   const threadsWithHandle = {
-//     ownThreads: [],
-//     otherThreads: [],
-//   };
-
-//   Object.keys(testStrings).forEach(testStringKey => {
-//     const testString = testStrings[testStringKey];
-
-//     threadsWithHandle.ownThreads.push(
-//       createTwitterThreadMessages(testString, {
-//         threadTo: { own: ownHandle },
-//       }),
-//     );
-
-//     threadsWithHandle.otherThreads.push(
-//       createTwitterThreadMessages(testString, {
-//         threadTo: { other: dynamicHandle },
-//       }),
-//     );
-//   });
-
-//   // console.log(JSON.stringify(threadsWithHandle.ownThreads, null, 2));
-//   // console.log('-------------------------------------');
-//   threadsWithHandle.ownThreads.forEach(thread => {
-//     for (const entry of thread.entries()) {
-//       const tweetIndex = entry[0];
-//       const tweet = entry[1];
-//       // the first tweet shouldn't have a handle
-//       if (tweetIndex === 0) {
-//         if (tweet.indexOf(ownHandle)) {
-//           t.throws(() => {
-//             throwError(
-//               'First tweet for a self thread shouldnt have our own handle',
-//             );
-//           });
-//         }
-//       } else {
-//         // console.log(tweet);
-//         // console.log('-------------------');
-//         if (tweet.indexOf(ownHandle) < 0) {
-//           t.throws(() => {
-//             throwError(
-//               'all tweets after first tweet should have had the handle in them',
-//             );
-//           });
-//         }
-//       }
-//     }
-//   });
-
-//   threadsWithHandle.otherThreads.forEach(thread => {
-//     thread.forEach(tweet => {
-//       if (tweet.indexOf(dynamicHandle) < 0) {
-//         t.throws(() => {
-//           throwError('all tweets should have had the handle in them');
-//         });
-//       }
-//     });
-//   });
-
-//   t.pass();
-// });
+        // first tweet
+        if (index === 0) {
+          t.test(value.indexOf());
+        }
+      }
+    },
+    noop,
+  );
+  // t.pass();
+});

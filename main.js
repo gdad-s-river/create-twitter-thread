@@ -6,9 +6,9 @@ import {
   throwError,
   throwTypeError,
   wordIt,
+  TWEET_LENGTH,
 } from './utils/';
-
-export const TWEET_LENGTH = 280;
+// import clipboard from 'copy-paste';
 
 export default function createTwitterThreadMessages(message, threadObject) {
   let threadTo =
@@ -28,7 +28,9 @@ export default function createTwitterThreadMessages(message, threadObject) {
     TWEET_LENGTH,
   );
 
-  return [...result, `${lastCarryOver}`];
+  return lastCarryOver
+    ? [...result, `${handleValue} ${lastCarryOver}`]
+    : result;
 }
 
 function getSaneTweetsWithHandles(
@@ -39,11 +41,16 @@ function getSaneTweetsWithHandles(
 ) {
   const returnVal = untinkeredChunks.reduce(
     (acc, currentVal, currentIndex) => {
-      const { result: prevResult, carryOver } = acc;
+      const { result: prevResult, carryOver, join: joinCarryOver } = acc;
 
       // copied to mutate later
       let newResult = prevResult;
-      let newCarryOver = carryOver ? ` ${carryOver}` : carryOver;
+
+      let newCarryOver = carryOver
+        ? !joinCarryOver
+          ? ` ${carryOver} `
+          : ` ${carryOver}`
+        : carryOver;
 
       let carryAddedTweet;
 
@@ -61,62 +68,71 @@ function getSaneTweetsWithHandles(
       carryAddedTweet = injectString(currentVal, {
         start: 0,
         delCount: 0,
-        newSubStr: `${handleValue}${newCarryOver} `,
+        newSubStr: `${handleValue}${newCarryOver}`,
       });
+
+      // console.log(carryAddedTweet);
 
       // do the sanity
       const sane280Untested = extractSane280(carryAddedTweet, TWEET_LENGTH);
 
-      console.log(sane280Untested);
-      console.log('------------');
-      console.log(carryAddedTweet);
-
-      const { sane280, saneCutPart } = wordIt(sane280Untested, carryAddedTweet);
+      const { sane280, saneCutPart, join } = wordIt(
+        sane280Untested,
+        carryAddedTweet,
+        handleValue,
+      );
 
       newResult.push(sane280);
 
-      return { result: newResult, carryOver: saneCutPart };
+      return { result: newResult, carryOver: saneCutPart, join: join };
     },
-    { result: [], carryOver: '' },
+    { result: [], carryOver: '', join: false },
   );
 
   return returnVal;
 }
 
-let tweetsArray = [];
-
 function formTweetsArray(message) {
-  if (!message) {
-    throwError('first argument is mandatory');
+  let tweetsArray = [];
+
+  function recursiveFunctionFormingThread(message) {
+    if (!message) {
+      throwError('first argument is mandatory');
+    }
+
+    if (!is.string(message)) {
+      throwTypeError('first argument (message) should be a string');
+    }
+
+    if (!message.length) {
+      return tweetsArray;
+    }
+
+    if (message.trim().length <= TWEET_LENGTH) {
+      tweetsArray.push(message.trim());
+      return tweetsArray;
+    }
+
+    const sane280Untested = extractSane280(message, TWEET_LENGTH);
+    const { sane280, saneCutPart: nextMessage } = wordIt(
+      sane280Untested,
+      message,
+    );
+
+    tweetsArray.push(sane280.trim());
+
+    return recursiveFunctionFormingThread(nextMessage);
   }
 
-  if (!is.string(message)) {
-    throwTypeError('first argument (message) should be a string');
-  }
-
-  if (!message.length) {
-    return tweetsArray;
-  }
-
-  if (message.trim().length <= TWEET_LENGTH) {
-    tweetsArray.push(message.trim());
-    return tweetsArray;
-  }
-
-  const sane280Untested = extractSane280(message, TWEET_LENGTH);
-  const { sane280, saneCutPart: nextMessage } = wordIt(
-    sane280Untested,
-    message,
-  );
-
-  tweetsArray.push(sane280.trim());
-
-  return formTweetsArray(nextMessage);
+  return recursiveFunctionFormingThread(message);
 }
 
-const obj = {
-  threadTo: { other: '@YEAHSCIENCE' },
-};
-const result = createTwitterThreadMessages(testStrings.emojiString, obj);
+// const obj = {
+//   threadTo: { other: '@bewarehdfcergo' },
+// };
 
+// const result = createTwitterThreadMessages(testStrings.longString);
 // console.log(result);
+// console.log(result.join(''));
+
+// result.forEach(t => console.log(t, '\n--------------------------'));

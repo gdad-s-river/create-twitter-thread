@@ -2,6 +2,7 @@
 import is from '@sindresorhus/is';
 
 const SINGLE_SPACE = ' ';
+const TWEET_LENGTH = 280;
 
 function isArrayOfStrings(x) {
   if (!Array.isArray(x))
@@ -25,7 +26,8 @@ function injectString(str, { start, delCount, newSubStr }) {
   );
 }
 
-function wordIt(string, supersetString) {=
+// handleValue = optional
+function wordIt(string, supersetString, handleValue) {
   if (!is.string(string) && !is.string(supersetString)) {
     throwTypeError(
       'both of the arguments should be strings. One or both of them wasnt string',
@@ -39,10 +41,10 @@ function wordIt(string, supersetString) {=
   }
 
   if (string === supersetString) {
-    console.log('yeah shit');
     return {
       sane280: string,
       saneCutPart: '',
+      join: false,
     };
   }
 
@@ -53,28 +55,44 @@ function wordIt(string, supersetString) {=
     return {
       sane280: string,
       saneCutPart,
-    };
-  } else {
-    const indexOfLastSpace = string.lastIndexOf(SINGLE_SPACE);
-    // TODO — EDGE CASE — if there is no space in the string, it's a looooong word
-    if (indexOfLastSpace < 0) {
-      // do something to keep everything sane
-      const saneCutPart = supersetString.slice(string.length);
-
-      return {
-        sane280: string,
-        saneCutPart,
-      };
-    }
-
-    const sane280 = string.slice(0, indexOfLastSpace);
-    const saneCutPart = supersetString.slice(indexOfLastSpace + 1);
-
-    return {
-      sane280,
-      saneCutPart,
+      join: false,
     };
   }
+
+  if (
+    handleValue &&
+    string
+      .slice(string.indexOf(handleValue) + handleValue.length)
+      .trim()
+      .lastIndexOf(SINGLE_SPACE) < 0
+  ) {
+    return {
+      sane280: string,
+      saneCutPart: supersetString.slice(string.length),
+      join: true,
+    };
+  }
+
+  const indexOfLastSpace = string.lastIndexOf(SINGLE_SPACE);
+  if (indexOfLastSpace < 0) {
+    // do something to keep everything sane
+    const saneCutPart = supersetString.slice(string.length);
+
+    return {
+      sane280: string,
+      saneCutPart,
+      join: false,
+    };
+  }
+
+  const sane280 = string.slice(0, indexOfLastSpace);
+  const saneCutPart = supersetString.slice(indexOfLastSpace + 1);
+
+  return {
+    sane280,
+    saneCutPart,
+    join: false,
+  };
 }
 
 function extractSane280(message, limit) {
@@ -117,5 +135,13 @@ function extractSane280(message, limit) {
   return str;
 }
 
-export { isArrayOfStrings, throwError, throwTypeError, injectString, wordIt, extractSane280, SINGLE_SPACE, };
-
+export {
+  isArrayOfStrings,
+  throwError,
+  throwTypeError,
+  injectString,
+  wordIt,
+  extractSane280,
+  SINGLE_SPACE,
+  TWEET_LENGTH,
+};
