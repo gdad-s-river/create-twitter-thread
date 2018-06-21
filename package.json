@@ -1,6 +1,6 @@
 {
   "name": "create-twitter-thread",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Creates a twitter thread out of a long string and some options",
   "main": "index.js",
   "scripts": {
