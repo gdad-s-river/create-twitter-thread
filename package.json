@@ -1,8 +1,7 @@
 {
   "name": "create-twitter-thread",
-  "version": "2.1.0",
-  "description":
-    "Creates a twitter thread out of a long string and some options",
+  "version": "2.0.5",
+  "description": "Creates a twitter thread out of a long string and some options",
   "main": "src/index.js",
   "scripts": {
     "test": "ava",
@@ -12,7 +11,12 @@
     "type": "git",
     "url": "git+https://github.com/gdad-s-river/create-twitter-thread.git"
   },
-  "keywords": ["twitter", "tweet", "tweet-thread", "twitter-bot"],
+  "keywords": [
+    "twitter",
+    "tweet",
+    "tweet-thread",
+    "twitter-bot"
+  ],
   "author": {
     "name": "Arihant Verma",
     "email": "gdadsriver@gmail.com",
