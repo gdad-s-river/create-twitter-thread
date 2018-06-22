@@ -1,4 +1,5 @@
 import is from '@sindresorhus/is';
+import MutationEmitter from '../events';
 
 const SINGLE_SPACE = ' ';
 const TWEET_LENGTH = 280;
@@ -36,7 +37,6 @@ function wordIt(string, supersetString, handleValue) {
     return {
       sane280: string,
       saneCutPart: '',
-      join: false,
     };
   }
 
@@ -47,7 +47,6 @@ function wordIt(string, supersetString, handleValue) {
     return {
       sane280: string,
       saneCutPart,
-      join: false,
     };
   }
 
@@ -58,12 +57,15 @@ function wordIt(string, supersetString, handleValue) {
       .trim()
       .lastIndexOf(SINGLE_SPACE) < 0
   ) {
+    MutationEmitter.emit('mutateVariable', true);
     return {
       sane280: string,
       saneCutPart: supersetString.slice(string.length),
-      join: true,
     };
   }
+
+  // if not then restore mutateVariable listener back to false;
+  MutationEmitter.emit('mutateVariable', false);
 
   const indexOfLastSpace = string.lastIndexOf(SINGLE_SPACE);
   if (indexOfLastSpace < 0) {
@@ -73,7 +75,6 @@ function wordIt(string, supersetString, handleValue) {
     return {
       sane280: string,
       saneCutPart,
-      join: false,
     };
   }
 
@@ -83,7 +84,6 @@ function wordIt(string, supersetString, handleValue) {
   return {
     sane280,
     saneCutPart,
-    join: false,
   };
 }
 
@@ -121,8 +121,6 @@ function extractSane280(message, limit) {
       break;
     }
   }
-
-  const restOfMessage = message.slice(message.length);
 
   return str;
 }

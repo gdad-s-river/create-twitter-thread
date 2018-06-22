@@ -1,12 +1,26 @@
 import is from '@sindresorhus/is';
+import MutationEmitter from './events';
 import {
   extractSane280,
   injectString,
+  SINGLE_SPACE,
   throwError,
   throwTypeError,
-  wordIt,
   TWEET_LENGTH,
+  wordIt,
 } from './utils/';
+
+const EMPTY_STRING = '';
+/**
+ * dontPadRight boolean
+ * needed for special edgecase where
+ * there are no spaces in the formed tweet (see line #60, src/utils/index.js)
+ * during the reduce function execution below
+ */
+let dontPadRight = false;
+MutationEmitter.on('mutateVariable', newValue => {
+  dontPadRight = newValue;
+});
 
 export default function createTwitterThreadMessages(message, threadObject) {
   let threadTo =
@@ -39,23 +53,27 @@ function getSaneTweetsWithHandles(
 ) {
   const returnVal = untinkeredChunks.reduce(
     (acc, currentVal, currentIndex) => {
-      const { result: prevResult, carryOver, join: joinCarryOver } = acc;
-
+      const { result: prevResult, carryOver } = acc;
       // copied to mutate later
       let newResult = prevResult;
 
-      let newCarryOver = carryOver
-        ? !joinCarryOver
-          ? ` ${carryOver} `
-          : ` ${carryOver}`
-        : carryOver;
+      const leftPadToCarryOver =
+        carryOver.indexOf(SINGLE_SPACE) === 0 ? EMPTY_STRING : SINGLE_SPACE;
+      const rightPadToCarryOver =
+        carryOver.lastIndexOf(SINGLE_SPACE) === carryOver.length - 1
+          ? EMPTY_STRING
+          : dontPadRight
+            ? EMPTY_STRING
+            : SINGLE_SPACE;
+
+      let newCarryOver = `${leftPadToCarryOver}${carryOver}${rightPadToCarryOver}`;
 
       let carryAddedTweet;
 
-      if (!prevResult.length) {
+      if (currentIndex === 0) {
         // first iteration
         if (threadTo.own) {
-          newResult.push(currentVal);
+          newResult.push(currentVal.trim());
           return {
             result: newResult,
             carryOver: newCarryOver, // unchanged ''
@@ -68,7 +86,6 @@ function getSaneTweetsWithHandles(
         delCount: 0,
         newSubStr: `${handleValue}${newCarryOver}`,
       });
-
       // do the sanity
       const sane280Untested = extractSane280(carryAddedTweet, TWEET_LENGTH);
 
@@ -78,11 +95,11 @@ function getSaneTweetsWithHandles(
         handleValue,
       );
 
-      newResult.push(sane280);
+      newResult.push(sane280.trim());
 
-      return { result: newResult, carryOver: saneCutPart, join: join };
+      return { result: newResult, carryOver: saneCutPart.trim(), join: join };
     },
-    { result: [], carryOver: '', join: false },
+    { result: [], carryOver: '' },
   );
 
   return returnVal;

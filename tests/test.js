@@ -1,9 +1,9 @@
-import test from 'ava';
 import is from '@sindresorhus/is';
-import createTwitterThreadMessages from './main';
+import test from 'ava';
+import createTwitterThreadMessages from '../src/main';
 // TODO: test on many randomized strings instead of just two (open issue for it)
 import testStrings from './testStrings';
-import { throwTypeError, TWEET_LENGTH } from './utils';
+import { TWEET_LENGTH } from '../src/utils';
 
 const testStringsObject = testStrings;
 
@@ -108,6 +108,8 @@ test('Tweets should have necessary handles if they are created with threadTo opt
           t.true(tweetValue.indexOf(ownHandle) < 0);
         } else {
           t.true(tweetValue.indexOf(ownHandle) === 0);
+          t.true(tweetValue.charAt(ownHandle.length) === ' ');
+          t.true(tweetValue.charAt(ownHandle.length + 1) !== ' ');
         }
       }
     },
@@ -120,6 +122,8 @@ test('Tweets should have necessary handles if they are created with threadTo opt
       const tweetValue = entry[1];
 
       t.true(tweetValue.indexOf(otherHandle) === 0);
+      t.true(tweetValue.charAt(otherHandle.length) === ' ');
+      t.true(tweetValue.charAt(otherHandle.length + 1) !== ' ');
     }
   });
 });
