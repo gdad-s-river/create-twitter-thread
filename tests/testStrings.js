@@ -1,7 +1,7 @@
 // need to make it more generic
 
 const longString = `I'm partial to air conditioning.
-God created pudding, and then he rested. I'm going to tell you something that I've never told anyone before. I have a dark side, too. Pretend. You pretend the feelings are there, for the world, for the people around you. Who knows? Maybe one day 👇they will be.
+God created pudding, and then he rested. I'm going to tell you something that I've never told anyone before. I have a dark side, too. Pretend. You pretend the feelings are there, for the world, for the people around you. Who knows? Maybe one day they will be.
 
 I have a dark side, too. You look…perfect. God created pudding, and then he rested. Tell him time is of the essence. You all right, Dexter?
 
